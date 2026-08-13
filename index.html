@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORÇA • Treinos & Performance</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+ --bg:#05070a;--card:#101722;--card2:#0b1017;--blue:#00aaff;
+ --neon:#00d9ff;--darkblue:#0066ff;--white:#f4f8ff;--gray:#8d9aaa;
+ --green:#00e676;--orange:#ff9800;--red:#ff3d5a;
+ --border:rgba(0,174,255,.18)
+}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 80% 0%,rgba(0,153,255,.10),transparent 35%),var(--bg);color:var(--white);min-height:100vh}
+button,input{font-family:inherit}button{cursor:pointer}
+header{position:sticky;top:0;z-index:1000;background:rgba(5,7,10,.92);backdrop-filter:blur(15px);border-bottom:1px solid var(--border)}
+.header-inner{max-width:1250px;margin:auto;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.logo{display:flex;align-items:center;gap:12px}.logo-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--blue),var(--darkblue));box-shadow:0 0 20px rgba(0,170,255,.35);font-size:22px}
+.logo h1{font-size:20px;letter-spacing:2px}.logo span{color:var(--neon)}.date{color:var(--gray);font-size:13px}
+.nav{max-width:1250px;margin:auto;padding:0 20px 12px;display:flex;gap:8px;overflow-x:auto}.nav::-webkit-scrollbar{height:0}
+.nav-btn{border:1px solid transparent;background:transparent;color:var(--gray);padding:11px 18px;border-radius:10px;white-space:nowrap;transition:.25s;font-weight:bold}.nav-btn:hover{color:#fff;background:rgba(0,170,255,.08)}.nav-btn.active{color:#fff;background:rgba(0,170,255,.12);border-color:var(--border);box-shadow:inset 0 -2px var(--neon)}
+main{max-width:1250px;margin:auto;padding:30px 20px 80px}.tab{display:none;animation:fadeIn .35s ease}.tab.active{display:block}@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.section-title{margin-bottom:25px}.section-title h2{font-size:clamp(26px,4vw,38px);margin-bottom:7px}.section-title p{color:var(--gray)}
+.hero{min-height:300px;border-radius:22px;overflow:hidden;position:relative;margin-bottom:25px;background-image:linear-gradient(90deg,rgba(3,6,10,.95),rgba(3,6,10,.40)),url("https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=1600&q=85");background-size:cover;background-position:center;display:flex;align-items:center;padding:40px;border:1px solid var(--border)}
+.hero-content{max-width:620px}.badge{display:inline-block;padding:7px 12px;border-radius:30px;background:rgba(0,174,255,.12);border:1px solid rgba(0,174,255,.25);color:var(--neon);font-size:12px;font-weight:bold;letter-spacing:1px;margin-bottom:14px}
+.hero h2{font-size:clamp(30px,5vw,52px);line-height:1;margin-bottom:15px}.hero h2 span{color:var(--neon)}.hero p{color:#c1cad5;line-height:1.6;margin-bottom:22px}
+.btn{border:none;border-radius:10px;padding:12px 18px;font-weight:bold;transition:.2s}.btn-primary{background:linear-gradient(135deg,var(--neon),var(--darkblue));color:#fff;box-shadow:0 0 20px rgba(0,174,255,.20)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 28px rgba(0,174,255,.35)}.btn-secondary{background:rgba(255,255,255,.05);color:#fff;border:1px solid var(--border)}
+.card{background:linear-gradient(145deg,rgba(16,23,34,.96),rgba(9,14,21,.96));border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:0 0 30px rgba(0,170,255,.08)}.card h3{margin-bottom:8px}.card-subtitle{color:var(--gray);font-size:13px;margin-bottom:20px}
+.grid{display:grid;gap:18px}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}.stat{padding:20px;border:1px solid var(--border);background:var(--card);border-radius:15px}.stat-icon{font-size:22px;margin-bottom:12px}.stat-value{font-size:28px;font-weight:bold}.stat-label{color:var(--gray);font-size:12px;margin-top:5px}
+.workout-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.workout-section{margin-top:22px}.workout-section h3{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.exercise{display:flex;align-items:center;gap:13px;padding:14px;margin-bottom:9px;border-radius:11px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);transition:.2s}.exercise:hover{background:rgba(0,174,255,.06)}
+.exercise input{appearance:none;width:21px;height:21px;min-width:21px;border:2px solid #506070;border-radius:6px;cursor:pointer;position:relative}.exercise input:checked{background:var(--blue);border-color:var(--neon)}.exercise input:checked::after{content:"✓";position:absolute;color:#fff;font-weight:bold;left:3px;top:-2px}.exercise input:checked+.exercise-info{opacity:.5;text-decoration:line-through}.exercise-info{flex:1}.exercise-name{font-weight:bold;margin-bottom:4px}.exercise-details{font-size:12px;color:var(--gray)}.exercise-tag{font-size:10px;color:var(--neon);background:rgba(0,174,255,.08);border:1px solid rgba(0,174,255,.15);padding:5px 8px;border-radius:20px}
+.progress-container{margin:20px 0}.progress-top{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px}.progress-bar{height:8px;background:#17202b;border-radius:20px;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--neon));border-radius:20px;transition:.4s;box-shadow:0 0 12px rgba(0,217,255,.4)}
+.food-card{min-height:220px;background-size:cover;background-position:center;position:relative;overflow:hidden}.food-card::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.9),rgba(0,0,0,.15))}.food-content{position:relative;z-index:2;margin-top:110px}.food-content p{color:#c5cbd3;font-size:13px;line-height:1.5;margin-top:8px}
+.history-item{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px;border-bottom:1px solid rgba(255,255,255,.06)}.history-item:last-child{border-bottom:none}.history-date{font-weight:bold}.history-type{color:var(--gray);font-size:12px;margin-top:4px}.status{padding:7px 10px;border-radius:20px;font-size:11px;font-weight:bold}.status.done{color:var(--green);background:rgba(0,230,118,.08)}.status.partial{color:var(--orange);background:rgba(255,152,0,.08)}.empty{text-align:center;color:var(--gray);padding:35px}
+.metric{text-align:center}.metric strong{display:block;font-size:38px;color:var(--neon);margin-bottom:5px}.metric span{color:var(--gray);font-size:13px}.chart{height:230px;display:flex;align-items:flex-end;gap:10px;padding:20px 10px 0;border-bottom:1px solid #27313d;overflow-x:auto}.chart-column{min-width:35px;flex:1;max-width:70px;height:100%;display:flex;align-items:flex-end;justify-content:center;position:relative}.chart-bar{width:70%;min-height:4px;border-radius:6px 6px 0 0;background:linear-gradient(to top,var(--darkblue),var(--neon));box-shadow:0 0 15px rgba(0,174,255,.2)}.chart-label{position:absolute;bottom:-22px;font-size:10px;color:var(--gray)}
+.input{width:100%;min-width:0;background:#080d13;color:#fff;border:1px solid #263342;border-radius:9px;padding:12px;outline:none}.input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,174,255,.08)}
+.auth-box{max-width:500px;margin:50px auto}.auth-actions{display:flex;gap:10px;flex-wrap:wrap}.user-pill{display:flex;align-items:center;gap:8px;color:#b9c3ce;font-size:12px}.danger{color:#ff8090}.notice{padding:12px 14px;border-radius:10px;background:rgba(0,174,255,.08);border:1px solid var(--border);color:#b9c3ce;font-size:13px;line-height:1.5;margin-bottom:15px}
+.hidden{display:none!important}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:1fr}}
+@media(max-width:700px){.header-inner{align-items:flex-start}.date{display:none}main{padding:20px 13px 70px}.nav{padding-left:13px;padding-right:13px}.nav-btn{padding:10px 13px;font-size:12px}.hero{min-height:350px;padding:25px;background-position:65% center}.grid-2{grid-template-columns:1fr}.stats{gap:9px}.stat{padding:15px}.stat-value{font-size:23px}.workout-header{align-items:flex-start;flex-direction:column}}
+</style>
+    <meta name="theme-color" content="#05070a">
+    <meta name="description" content="FORÇA — Treinos, alimentação, histórico e evolução de performance.">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+
+<body>
+
+<header>
+<div class="header-inner">
+<div class="logo">
+<div class="logo-icon">⚡</div>
+<div><h1>FORÇA<span>.</span></h1><small style="color:#697686">PERFORMANCE</small></div>
+</div>
+<div class="date" id="currentDate"></div>
+</div>
+
+<nav class="nav">
+<button class="nav-btn active" data-tab="treinos">🏋️ Treinos</button>
+<button class="nav-btn" data-tab="alimentacao">🍎 Alimentação</button>
+<button class="nav-btn" data-tab="historicos">📋 Históricos</button>
+<button class="nav-btn" data-tab="evolucao">📈 Evolução</button>
+</nav>
+</header>
+
+<main>
+
+<!-- LOGIN -->
+<section class="tab" id="login">
+<div class="card auth-box">
+<span class="badge">CONTA</span>
+<h2 id="authTitle" style="margin-bottom:10px">Entrar no FORÇA</h2>
+<p class="card-subtitle">Crie uma conta ou entre para salvar histórico e evolução na sua conta.</p>
+
+<div id="signupNameBox" class="hidden">
+<label>Nome</label>
+<input class="input" id="authName" placeholder="Seu nome" style="margin:7px 0 14px">
+</div>
+
+<label>E-mail</label>
+<input class="input" id="authEmail" type="email" placeholder="seu@email.com" style="margin:7px 0 14px">
+
+<label>Senha</label>
+<input class="input" id="authPassword" type="password" placeholder="Mínimo recomendado: 6 caracteres" style="margin:7px 0 18px">
+
+<div class="auth-actions">
+<button class="btn btn-primary" id="authSubmit" onclick="executarAuth()">Entrar</button>
+<button class="btn btn-secondary" onclick="alternarAuth()">Criar conta</button>
+</div>
+
+<p id="authMessage" style="margin-top:15px;color:#8d9aaa;font-size:13px"></p>
+</div>
+</section>
+
+<!-- TREINOS -->
+<section class="tab active" id="treinos">
+
+<div class="hero">
+<div class="hero-content">
+<span class="badge">TREINO DO DIA</span>
+<h2>CONSTRUA SUA<br><span>MELHOR VERSÃO.</span></h2>
+<p>Treinos funcionais carregados diretamente do banco de dados, com foco em força, velocidade, resistência e condicionamento.</p>
+<button class="btn btn-primary" onclick="gerarTreino()">⚡ Gerar novo treino</button>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat"><div class="stat-icon">🔥</div><div class="stat-value" id="statStreak">0</div><div class="stat-label">Dias seguidos</div></div>
+<div class="stat"><div class="stat-icon">🏋️</div><div class="stat-value" id="statExercises">0%</div><div class="stat-label">Treino concluído</div></div>
+<div class="stat"><div class="stat-icon">📅</div><div class="stat-value" id="statTotal">0</div><div class="stat-label">Treinos registrados</div></div>
+<div class="stat"><div class="stat-icon">💧</div><div class="stat-value">2–3L</div><div class="stat-label">Meta geral de hidratação</div></div>
+</div>
+
+<div class="card">
+<div class="workout-header">
+<div><h2 id="workoutTitle">Carregando...</h2><div class="card-subtitle" id="workoutSubtitle">Buscando treino no Supabase...</div></div>
+<span class="badge" id="workoutDifficulty">—</span>
+</div>
+
+<div class="progress-container">
+<div class="progress-top"><span>Progresso do treino</span><strong id="progressText">0%</strong></div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="workout-section"><h3>🔥 Aquecimento</h3><div id="warmupList"></div></div>
+<div class="workout-section"><h3>⚡ Parte principal</h3><div id="mainList"></div></div>
+<div class="workout-section"><h3>🧘 Desaquecimento</h3><div id="cooldownList"></div></div>
+
+<div style="margin-top:25px;display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn btn-primary" onclick="finalizarTreino()">✓ Finalizar treino</button>
+<button class="btn btn-secondary" onclick="resetarTreino()">↻ Limpar checklist</button>
+</div>
+</div>
+</section>
+
+<!-- ALIMENTAÇÃO -->
+<section class="tab" id="alimentacao">
+<div class="section-title">
+<span class="badge">NUTRIÇÃO</span>
+<h2>Alimentação & Hidratação</h2>
+<p>Conteúdo carregado do banco de dados.</p>
+</div>
+
+<div class="grid grid-2">
+<div class="card food-card" style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=85')">
+<div class="food-content"><h3>🍌 Pré-treino</h3><p>Opções cadastradas no banco para antes do treino.</p></div>
+</div>
+<div class="card food-card" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85')">
+<div class="food-content"><h3>🥗 Pós-treino</h3><p>Opções cadastradas no banco para recuperação.</p></div>
+</div>
+</div>
+
+<div id="foodList" class="grid grid-2" style="margin-top:18px"></div>
+
+<div class="card" style="margin-top:18px;border-left:4px solid var(--neon)">
+<h3>💙 Hidratação</h3>
+<p style="color:#b9c3ce;line-height:1.6;margin-top:8px">Beba água ao longo do dia e ajuste a ingestão conforme calor, duração e intensidade do treino. Necessidades individuais variam.</p>
+</div>
+</section>
+
+<!-- HISTÓRICO -->
+<section class="tab" id="historicos">
+<div class="section-title">
+<span class="badge">REGISTROS</span>
+<h2>Histórico de treinos</h2>
+<p>Registros salvos na sua conta do Supabase.</p>
+</div>
+<div id="historyLoginNotice" class="notice hidden">Entre na sua conta para visualizar seu histórico.</div>
+<div class="card"><div id="historyList"><div class="empty">Carregando...</div></div></div>
+</section>
+
+<!-- EVOLUÇÃO -->
+<section class="tab" id="evolucao">
+<div class="section-title">
+<span class="badge">PERFORMANCE</span>
+<h2>Sua evolução</h2>
+<p>Peso e indicadores registrados na sua conta.</p>
+</div>
+
+<div class="grid grid-3">
+<div class="card metric"><strong id="evoStreak">0</strong><span>dias seguidos</span></div>
+<div class="card metric"><strong id="evoWorkouts">0</strong><span>treinos concluídos</span></div>
+<div class="card metric"><strong id="evoRate">0%</strong><span>taxa de conclusão</span></div>
+</div>
+
+<div class="grid grid-2" style="margin-top:18px">
+<div class="card">
+<h3>📊 Treinos recentes</h3><p class="card-subtitle">Percentual concluído por treino.</p>
+<div class="chart" id="chart"></div>
+</div>
+
+<div class="card">
+<h3>⚖️ Registro de peso</h3><p class="card-subtitle">Registre uma nova medição.</p>
+<input class="input" type="number" step="0.1" id="weightInput" placeholder="Peso em kg">
+<input class="input" id="weightNotes" placeholder="Observação (opcional)" style="margin-top:10px">
+<button class="btn btn-primary" onclick="salvarPeso()" style="margin-top:10px">Salvar peso</button>
+<div id="weightHistory" style="margin-top:18px"></div>
+</div>
+</div>
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/*
+============================================================
+SUPABASE
+============================================================
+A URL é a do seu projeto.
+A publishable key é própria para uso no frontend.
+NUNCA coloque uma sb_secret_... neste arquivo.
+*/
+const SUPABASE_URL = "https://oyhydwabdrohawvwuloj.supabase.co";
+
+/*
+A chave abaixo foi inserida conforme a chave publishable
+fornecida pelo proprietário deste projeto.
+*/
+const SUPABASE_KEY = "sb_publishable_ESJaeUHijgGCga5u67hg_Q_-EVBEmro";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+let treinos = [];
+let treinoAtual = null;
+let exerciciosConcluidos = {};
+let historico = [];
+let pesos = [];
+let authModoCadastro = false;
+
+/* =========================================================
+   DATA
+========================================================= */
+function atualizarData(){
+    document.getElementById("currentDate").textContent =
+        new Date().toLocaleDateString("pt-BR", {
+            weekday:"long",day:"numeric",month:"long"
+        });
+}
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.addEventListener("click", async ()=>{
+        document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+
+        if(btn.dataset.tab==="historicos") await carregarHistorico();
+        if(btn.dataset.tab==="evolucao") await atualizarEvolucao();
+        if(btn.dataset.tab==="alimentacao") await carregarAlimentacao();
+    });
+});
+
+/* =========================================================
+   AUTH
+========================================================= */
+function alternarAuth(){
+    authModoCadastro = !authModoCadastro;
+    document.getElementById("signupNameBox").classList.toggle("hidden", !authModoCadastro);
+    document.getElementById("authTitle").textContent = authModoCadastro ? "Criar conta" : "Entrar no FORÇA";
+    document.getElementById("authSubmit").textContent = authModoCadastro ? "Criar conta" : "Entrar";
+    document.getElementById("authMessage").textContent = "";
+}
+
+async function executarAuth(){
+    const email = document.getElementById("authEmail").value.trim();
+    const password = document.getElementById("authPassword").value;
+    const nome = document.getElementById("authName").value.trim();
+    const msg = document.getElementById("authMessage");
+
+    if(!email || !password){
+        msg.textContent = "Preencha e-mail e senha.";
+        return;
+    }
+
+    msg.textContent = "Processando...";
+
+    if(authModoCadastro){
+        const {data,error} = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options:{data:{nome}}
+        });
+
+        if(error){ msg.textContent = "Erro: " + error.message; return; }
+
+        if(data.session){
+            msg.textContent = "Conta criada e login realizado.";
+        }else{
+            msg.textContent = "Conta criada. Verifique seu e-mail se a confirmação estiver ativada no Supabase.";
+        }
+    }else{
+        const {error} = await supabaseClient.auth.signInWithPassword({
+            email,password
+        });
+
+        if(error){ msg.textContent = "Erro: " + error.message; return; }
+
+        msg.textContent = "Login realizado.";
+        await iniciarAplicativo();
+    }
+}
+
+async function fazerLogout(){
+    await supabaseClient.auth.signOut();
+    atualizarInterfaceAuth(null);
+    historico=[];
+    pesos=[];
+    document.getElementById("historyList").innerHTML='<div class="empty">Entre na sua conta para visualizar seu histórico.</div>';
+    document.getElementById("weightHistory").innerHTML="";
+    alert("Você saiu da conta.");
+}
+
+function atualizarInterfaceAuth(user){
+    const nav = document.querySelector(".nav");
+    let userArea = document.getElementById("userArea");
+
+    if(!userArea){
+        userArea=document.createElement("div");
+        userArea.id="userArea";
+        userArea.style.cssText="max-width:1250px;margin:auto;padding:0 20px 10px;display:flex;justify-content:flex-end;";
+        nav.parentNode.insertBefore(userArea, nav);
+    }
+
+    if(user){
+        const nome = user.user_metadata?.nome || user.email;
+        userArea.innerHTML = `
+            <div class="user-pill">
+                👤 ${escapeHtml(nome)}
+                <button class="btn btn-secondary" style="padding:7px 10px;font-size:11px" onclick="fazerLogout()">Sair</button>
+            </div>`;
+    }else{
+        userArea.innerHTML=`
+            <button class="btn btn-primary" style="padding:8px 12px;font-size:11px" onclick="abrirLogin()">
+                Entrar / Criar conta
+            </button>`;
+    }
+}
+
+function abrirLogin(){
+    document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.getElementById("login").classList.add("active");
+    alternarAuth();
+}
+
+/* =========================================================
+   BANCO: TREINOS
+========================================================= */
+async function carregarTreinos(){
+    const {data,error} = await supabaseClient
+        .from("treinos")
+        .select("*, exercicios(*)")
+        .order("id");
+
+    if(error){
+        console.error(error);
+        mostrarErroTreino("Erro ao carregar treinos: " + error.message);
+        return;
+    }
+
+    treinos = data || [];
+
+    treinos.forEach(t=>{
+        if(t.exercicios) t.exercicios.sort((a,b)=>a.ordem-b.ordem);
+    });
+
+    if(treinos.length){
+        treinoAtual = treinos[Math.floor(Math.random()*treinos.length)];
+        renderizarTreino();
+    }else{
+        mostrarErroTreino("Nenhum treino foi cadastrado na tabela treinos.");
+    }
+}
+
+function mostrarErroTreino(texto){
+    document.getElementById("workoutTitle").textContent="Erro";
+    document.getElementById("workoutSubtitle").textContent=texto;
+}
+
+function gerarTreino(){
+    if(!treinos.length){alert("Nenhum treino disponível no banco.");return;}
+    treinoAtual = treinos[Math.floor(Math.random()*treinos.length)];
+    exerciciosConcluidos={};
+    renderizarTreino();
+}
+
+function renderizarTreino(){
+    if(!treinoAtual) return;
+
+    document.getElementById("workoutTitle").textContent=treinoAtual.titulo;
+    document.getElementById("workoutSubtitle").textContent=treinoAtual.descricao || treinoAtual.categoria || "Treino funcional";
+    document.getElementById("workoutDifficulty").textContent=(treinoAtual.nivel||"MODERADO").toUpperCase();
+
+    const exercicios = treinoAtual.exercicios || [];
+
+    /*
+      Como o banco atual não possui uma coluna "fase",
+      classificamos por ordem:
+      - primeiros exercícios: aquecimento
+      - exercícios do meio: principal
+      - últimos exercícios: desaquecimento
+
+      Para um sistema mais avançado, podemos adicionar uma coluna
+      "fase" na tabela exercicios.
+    */
+    const n = exercicios.length;
+    const aquecimento = exercicios.slice(0, Math.min(2,n));
+    const principal = exercicios.slice(Math.min(2,n), Math.max(Math.min(2,n),n-1));
+    const desaquecimento = n>2 ? exercicios.slice(n-1) : [];
+
+    renderizarLista(aquecimento,"warmupList","Aquecimento");
+    renderizarLista(principal,"mainList","Parte principal");
+    renderizarLista(desaquecimento,"cooldownList","Desaquecimento");
+    atualizarProgresso();
+}
+
+function renderizarLista(lista,containerId,categoria){
+    const container=document.getElementById(containerId);
+    container.innerHTML="";
+
+    if(!lista.length){
+        container.innerHTML='<div style="color:#758291;font-size:13px;padding:10px">Nenhum exercício nesta etapa.</div>';
+        return;
+    }
+
+    lista.forEach(ex=>{
+        const id="ex-"+ex.id;
+        const detalhes=[];
+
+        if(ex.series) detalhes.push(`${ex.series} série(s)`);
+        if(ex.repeticoes) detalhes.push(`${ex.repeticoes} repetição(ões)`);
+        if(ex.tempo_descanso!=null) detalhes.push(`${ex.tempo_descanso}s descanso`);
+
+        const div=document.createElement("div");
+        div.className="exercise";
+        div.innerHTML=`
+            <input type="checkbox" id="${id}" onchange="marcarExercicio('${id}')">
+            <label for="${id}" class="exercise-info">
+                <div class="exercise-name">${escapeHtml(ex.nome)}</div>
+                <div class="exercise-details">${escapeHtml(detalhes.join(" • ") || "Conforme orientação")}</div>
+            </label>
+            <span class="exercise-tag">${categoria}</span>`;
+        container.appendChild(div);
+    });
+}
+
+function marcarExercicio(id){
+    exerciciosConcluidos[id]=document.getElementById(id).checked;
+    atualizarProgresso();
+}
+
+function obterCheckboxes(){
+    return document.querySelectorAll("#warmupList input,#mainList input,#cooldownList input");
+}
+
+function atualizarProgresso(){
+    const boxes=obterCheckboxes();
+    if(!boxes.length){
+        document.getElementById("progressFill").style.width="0%";
+        document.getElementById("progressText").textContent="0%";
+        document.getElementById("statExercises").textContent="0%";
+        return;
+    }
+
+    let ok=0;
+    boxes.forEach(c=>{if(c.checked)ok++;});
+    const pct=Math.round(ok/boxes.length*100);
+
+    document.getElementById("progressFill").style.width=pct+"%";
+    document.getElementById("progressText").textContent=pct+"%";
+    document.getElementById("statExercises").textContent=pct+"%";
+}
+
+function resetarTreino(){
+    exerciciosConcluidos={};
+    obterCheckboxes().forEach(c=>c.checked=false);
+    atualizarProgresso();
+}
+
+/* =========================================================
+   BANCO: HISTÓRICO
+========================================================= */
+async function finalizarTreino(){
+    const userResult=await supabaseClient.auth.getUser();
+    const user=userResult.data.user;
+
+    if(!user){
+        alert("Entre na sua conta antes de salvar um treino.");
+        abrirLogin();
+        return;
+    }
+
+    if(!treinoAtual){
+        alert("Nenhum treino selecionado.");
+        return;
+    }
+
+    const boxes=obterCheckboxes();
+    let ok=0;
+    boxes.forEach(c=>{if(c.checked)ok++;});
+    const pct=boxes.length ? Math.round(ok/boxes.length*100) : 0;
+
+    if(pct===0){
+        alert("Marque pelo menos um exercício antes de registrar.");
+        return;
+    }
+
+    const duracao=prompt("Duração do treino em minutos:", "30");
+    if(duracao===null)return;
+
+    const status=pct===100 ? "concluido" : "parcial";
+
+    const {error}=await supabaseClient
+        .from("historico_treinos")
+        .insert({
+            usuario_id:user.id,
+            treino_id:treinoAtual.id,
+            duracao_minutos:parseInt(duracao)||1,
+            status
+        });
+
+    if(error){
+        console.error(error);
+        alert("Não foi possível salvar o treino.\n\n"+error.message);
+        return;
+    }
+
+    alert(pct===100 ? "🔥 Treino concluído e salvo no banco!" : "💪 Treino parcial salvo no banco!");
+    await carregarHistorico();
+    await atualizarEvolucao();
+}
+
+async function carregarHistorico(){
+    const userResult=await supabaseClient.auth.getUser();
+    const user=userResult.data.user;
+    const list=document.getElementById("historyList");
+    const notice=document.getElementById("historyLoginNotice");
+
+    if(!user){
+        notice.classList.remove("hidden");
+        list.innerHTML='<div class="empty">Entre na sua conta para visualizar seu histórico.</div>';
+        document.getElementById("statTotal").textContent="0";
+        return;
+    }
+
+    notice.classList.add("hidden");
+
+    const {data,error}=await supabaseClient
+        .from("historico_treinos")
+        .select("*, treinos(titulo,categoria,nivel)")
+        .eq("usuario_id",user.id)
+        .order("data_conclusao",{ascending:false});
+
+    if(error){
+        console.error(error);
+        list.innerHTML=`<div class="empty">Erro ao carregar histórico: ${escapeHtml(error.message)}</div>`;
+        return;
+    }
+
+    historico=data||[];
+    document.getElementById("statTotal").textContent=historico.length;
+
+    if(!historico.length){
+        list.innerHTML='<div class="empty">Nenhum treino registrado ainda.</div>';
+        return;
+    }
+
+    list.innerHTML=historico.map(item=>{
+        const statusClass=item.status==="concluido"?"done":"partial";
+        const titulo=item.treinos?.titulo || "Treino";
+        const data=new Date(item.data_conclusao).toLocaleString("pt-BR");
+        return `
+        <div class="history-item">
+            <div>
+                <div class="history-date">${data}</div>
+                <div class="history-type">${escapeHtml(titulo)} • ${item.duracao_minutos||0} min</div>
+            </div>
+            <span class="status ${statusClass}">
+                ${item.status==="concluido"?"Concluído":"Parcial"}
+            </span>
+        </div>`;
+    }).join("");
+
+    atualizarEstatisticas();
+}
+
+/* =========================================================
+   BANCO: ALIMENTAÇÃO
+========================================================= */
+async function carregarAlimentacao(){
+    const container=document.getElementById("foodList");
+    const {data,error}=await supabaseClient
+        .from("alimentacao")
+        .select("*")
+        .order("tipo_refeicao")
+        .order("titulo");
+
+    if(error){
+        container.innerHTML=`<div class="card"><p>Erro ao carregar alimentação: ${escapeHtml(error.message)}</p></div>`;
+        return;
+    }
+
+    if(!data?.length){
+        container.innerHTML='<div class="card"><div class="empty">Nenhuma dica de alimentação cadastrada.</div></div>';
+        return;
+    }
+
+    container.innerHTML=data.map(item=>`
+        <div class="card">
+            <span class="badge">${escapeHtml(item.tipo_refeicao)}</span>
+            <h3>${escapeHtml(item.titulo)}</h3>
+            <p style="color:#b9c3ce;line-height:1.6;margin-top:10px">${escapeHtml(item.descricao)}</p>
+            ${item.calorias_estimadas!=null ? `<p style="color:#00d9ff;margin-top:12px;font-size:12px">≈ ${item.calorias_estimadas} kcal</p>`:""}
+        </div>
+    `).join("");
+}
+
+/* =========================================================
+   EVOLUÇÃO
+========================================================= */
+async function salvarPeso(){
+    const userResult=await supabaseClient.auth.getUser();
+    const user=userResult.data.user;
+
+    if(!user){
+        alert("Entre na sua conta antes de registrar seu peso.");
+        abrirLogin();
+        return;
+    }
+
+    const peso=parseFloat(document.getElementById("weightInput").value);
+    const observacoes=document.getElementById("weightNotes").value.trim();
+
+    if(!peso || peso<=0){
+        alert("Digite um peso válido.");
+        return;
+    }
+
+    const streak=calcularSequenciaLocal();
+
+    const {error}=await supabaseClient
+        .from("evolucao")
+        .insert({
+            usuario_id:user.id,
+            peso_kg:peso,
+            dias_consecutivos:streak,
+            observacoes:observacoes || null
+        });
+
+    if(error){
+        console.error(error);
+        alert("Erro ao salvar peso.\n\n"+error.message);
+        return;
+    }
+
+    document.getElementById("weightInput").value="";
+    document.getElementById("weightNotes").value="";
+    alert("⚖️ Peso salvo com sucesso!");
+    await atualizarEvolucao();
+}
+
+async function atualizarEvolucao(){
+    const userResult=await supabaseClient.auth.getUser();
+    const user=userResult.data.user;
+
+    if(!user){
+        document.getElementById("evoStreak").textContent="0";
+        document.getElementById("evoWorkouts").textContent="0";
+        document.getElementById("evoRate").textContent="0%";
+        document.getElementById("chart").innerHTML='<div class="empty" style="width:100%">Entre para visualizar sua evolução.</div>';
+        document.getElementById("weightHistory").innerHTML="";
+        return;
+    }
+
+    const {data,error}=await supabaseClient
+        .from("historico_treinos")
+        .select("*, treinos(titulo)")
+        .eq("usuario_id",user.id)
+        .order("data_conclusao",{ascending:false});
+
+    if(error){
+        console.error(error);
+        return;
+    }
+
+    historico=data||[];
+    const concluidos=historico.filter(h=>h.status==="concluido").length;
+    const taxa=historico.length ? Math.round(concluidos/historico.length*100) : 0;
+    const streak=calcularSequenciaLocal();
+
+    document.getElementById("evoStreak").textContent=streak;
+    document.getElementById("evoWorkouts").textContent=concluidos;
+    document.getElementById("evoRate").textContent=taxa+"%";
+    document.getElementById("statStreak").textContent=streak;
+    document.getElementById("statTotal").textContent=historico.length;
+
+    gerarGrafico();
+
+    const pesoResult=await supabaseClient
+        .from("evolucao")
+        .select("*")
+        .eq("usuario_id",user.id)
+        .order("data_registro",{ascending:false});
+
+    if(!pesoResult.error){
+        pesos=pesoResult.data||[];
+        renderizarPesos();
+    }
+}
+
+function calcularSequenciaLocal(){
+    if(!historico.length)return 0;
+
+    const datas=new Set(
+        historico
+            .filter(h=>h.status==="concluido")
+            .map(h=>new Date(h.data_conclusao).toLocaleDateString("pt-BR"))
+    );
+
+    let streak=0;
+    const d=new Date();
+
+    while(true){
+        const atual=d.toLocaleDateString("pt-BR");
+        if(datas.has(atual)){
+            streak++;
+            d.setDate(d.getDate()-1);
+        }else break;
+    }
+    return streak;
+}
+
+function gerarGrafico(){
+    const chart=document.getElementById("chart");
+    const dados=historico.slice(0,10).reverse();
+
+    if(!dados.length){
+        chart.innerHTML='<div class="empty" style="width:100%">Faça seu primeiro treino para visualizar sua evolução.</div>';
+        return;
+    }
+
+    chart.innerHTML=dados.map(item=>{
+        const pct=item.status==="concluido"?100:50;
+        const data=new Date(item.data_conclusao).toLocaleDateString("pt-BR").slice(0,5);
+        return `<div class="chart-column"><div class="chart-bar" style="height:${pct}%"></div><span class="chart-label">${data}</span></div>`;
+    }).join("");
+}
+
+function renderizarPesos(){
+    const box=document.getElementById("weightHistory");
+
+    if(!pesos.length){
+        box.innerHTML='<p style="color:#758291;font-size:13px">Nenhum registro de peso.</p>';
+        return;
+    }
+
+    box.innerHTML=pesos.slice(0,8).map(item=>`
+        <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px">
+            <span style="color:#8d9aaa">${escapeHtml(item.data_registro)}</span>
+            <strong>${item.peso_kg} kg</strong>
+        </div>
+    `).join("");
+}
+
+function atualizarEstatisticas(){
+    document.getElementById("statTotal").textContent=historico.length;
+    document.getElementById("statStreak").textContent=calcularSequenciaLocal();
+}
+
+/* =========================================================
+   SEGURANÇA DE TEXTO
+========================================================= */
+function escapeHtml(value){
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+async function iniciarAplicativo(){
+    atualizarData();
+
+    const {data:{session}}=await supabaseClient.auth.getSession();
+    atualizarInterfaceAuth(session?.user || null);
+
+    await carregarTreinos();
+    await carregarAlimentacao();
+
+    if(session?.user){
+        await carregarHistorico();
+        await atualizarEvolucao();
+    }else{
+        document.getElementById("statTotal").textContent="0";
+    }
+}
+
+supabaseClient.auth.onAuthStateChange(async (_event,session)=>{
+    atualizarInterfaceAuth(session?.user || null);
+
+    if(session?.user){
+        await carregarHistorico();
+        await atualizarEvolucao();
+    }
+});
+
+iniciarAplicativo();
+
+/*
+============================================================
+PERSONALIZAÇÃO
+============================================================
+1. Imagens:
+   Procure por "background-image:url(...)" no CSS.
+
+2. Treinos:
+   Agora os treinos NÃO ficam mais fixos no JavaScript.
+   Eles são carregados da tabela "treinos" e seus exercícios
+   da tabela "exercicios".
+
+3. Alimentação:
+   É carregada da tabela "alimentacao".
+
+4. Histórico:
+   É salvo em "historico_treinos" usando o UUID do usuário
+   autenticado pelo Supabase Auth.
+
+5. Evolução:
+   O peso é salvo na tabela "evolucao".
+
+IMPORTANTE:
+Para histórico e evolução, crie as políticas RLS apropriadas
+no Supabase para permitir que um usuário veja e insira apenas
+os próprios registros.
+============================================================
+*/
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+            .then(reg => console.log("FORÇA PWA: Service Worker registrado.", reg.scope))
+            .catch(err => console.error("FORÇA PWA: erro ao registrar Service Worker:", err));
+    });
+}
+</script>
+
+</body>
+</html>
